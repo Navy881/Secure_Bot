@@ -1,0 +1,58 @@
+{
+	"CameraParameters": {
+		"camera_index": 0,
+		"fps": 20
+	},
+	"DetectionParameters": {
+		"threshold_low": "50",
+		"min_area": "100",
+		"blur_size": "11",
+		"blur_power": "1"
+	},
+	"BotParameters": {
+		"token": "",
+		"chat_id": [
+			""
+		],
+		"proxy_url": "",
+		"username": "",
+		"password": "",
+		"sending_period": "5"
+	},
+	"NNParameters": {
+		"object": {
+			"architecture": "dnn/MobileNetSSD_deploy.prototxt.txt",
+			"model": "dnn/MobileNetSSD_deploy.caffemodel",
+			"classes": ["background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"],
+			"confidence": "0.5"
+		},
+		"face": {
+			"architecture": "dnn/face_detector_deploy.prototxt",
+			"model": "dnn/res10_300x300_ssd_iter_140000.caffemodel",
+			"classes": [],
+			"confidence": "0.6"
+		},
+		"emotion": {
+			"architecture": "dnn/EmotiW_RGB_deploy.prototxt",
+			"model": "dnn/EmotiW_VGG_S_RGB.caffemodel",
+			"classes": [
+				"Angry",
+				"Disgust",
+				"Fear",
+				"Happy",
+				"Neutral",
+				"Sad",
+				"Surprise"
+			],
+			"confidence": "0.5"
+		}
+	},
+	"MusicApiParameters": {
+		"url": "",
+		"email": "",
+		"password": ""
+	},
+	"ServicesAPITokens": {
+    	"open_exchange_rates_token": ""
+  }
+}

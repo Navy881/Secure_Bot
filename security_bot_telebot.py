@@ -37,29 +37,22 @@ bot_username = config["BotParameters"]["username"]
 bot_password = config["BotParameters"]["password"]
 open_exchange_rates_api_token = config["ServicesAPITokens"]["open_exchange_rates_token"]
 
+# load our serialized model from disk
+print("[INFO] loading model...")
+net = cv2.dnn.readNetFromCaffe(net_arch, net_model)
+
 telegram_bot = telebot.TeleBot(bot_token)
 
 
 def grab():
     global detection_status, dnn_detection_status
 
-    print("[INFO] loading model...")
-    net = cv2.dnn.readNetFromCaffe(net_arch, net_model)  # Load serialized model from disk
-    colors = np.random.uniform(0, 255, size=(len(classes), 3))
     sending_time = 0
 
     while running:
         img, jpeg, detection_status, person_in_image = camera.motion_detect(running=running,
                                                                             show_edges=show_edges,
-                                                                            dnn_detection_status=dnn_detection_status,
-                                                                            net=net,
-                                                                            classes=classes,
-                                                                            colors=colors,
-                                                                            given_confidence=float(net_confidence),
-                                                                            min_area=int(min_area),
-                                                                            blur_size=int(blur_size),
-                                                                            blur_power=int(blur_power),
-                                                                            threshold_low=int(threshold_low))
+                                                                            dnn_detection_status=dnn_detection_status)
         if person_in_image:
             send_delta = datetime.today().timestamp() - sending_time
             if int(send_delta) > int(bot_sending_period):
@@ -205,7 +198,7 @@ def send_last_video(chat_type, chat_id):
             if last_file is not None:
                 now = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
                 telegram_bot.send_video(chat_id=chat_id,
-                                        data=open(last_file, 'rb'),
+                                        video=open(last_file, 'rb'),
                                         reply_markup=delete_message_markup())
                 print("{} - bot sent video into {} chat: {}".format(now, chat_type, chat_id))
 
@@ -330,7 +323,17 @@ if __name__ == '__main__':
     star_time = datetime.now().replace(microsecond=0)
     send_time = datetime.today().timestamp()
 
-    camera = Camera(CAM, FPS, True)
+    camera = Camera(camera_idx=CAM,
+                    fps=FPS,
+                    record_video=True,
+                    min_area=int(min_area),
+                    blur_size=int(blur_size),
+                    blur_power=int(blur_power),
+                    threshold_low=int(threshold_low),
+                    net=net,
+                    detection_classes=classes,
+                    confidence=float(net_confidence),
+                    classes_colors=np.random.uniform(0, 255, size=(len(classes), 3)))
 
     while True:
         try:

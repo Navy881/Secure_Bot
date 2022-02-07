@@ -21,6 +21,7 @@ class DetectedObject(object):
 
 # noinspection PyUnresolvedReferences
 class Camera(object):
+
     def __init__(self, camera_idx=0, fps=30, record_video=False,
                  min_area=10, blur_size=11, blur_power=1, threshold_low=50, sending_period=60,
                  net=None, detection_classes=list, confidence=0.6, classes_colors=None, detection_period_in_seconds=1):
@@ -65,6 +66,14 @@ class Camera(object):
         self.last_detection_time = datetime.now()
         self.detected_objects = []
 
+        self.photo_dir = "photo/"
+        if not os.path.exists(self.photo_dir):
+            os.makedirs(self.photo_dir)
+
+        self.video_dir = "video/"
+        if not os.path.exists(self.video_dir):
+            os.makedirs(self.video_dir)
+
     def __del__(self):
         self.stop()
 
@@ -106,20 +115,15 @@ class Camera(object):
     def make_screenshot(self):
         ret, frame = self.video.read()
         if ret:
-            cv2.imwrite('photo/bot_screenshot.png', frame)
+            cv2.imwrite(self.photo_dir + 'bot_screenshot.png', frame)
 
     # Создание видеофайла
     def create_video_file(self):
 
-        video_dir = "video/"
-
         date = datetime.now().strftime("%d-%m-%Y_(%H-%M-%S_%p)")
         fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')  # Video format/Codec
 
-        if not os.path.exists(video_dir):
-            os.makedirs(video_dir)
-
-        self.video_filename = video_dir + "camera" + str(self.camera_index) + "_" + date + ".avi"
+        self.video_filename = self.video_dir + "camera" + str(self.camera_index) + "_" + date + ".avi"
         print("INFO: Create file: " + self.video_filename)
 
         self.video_out = cv2.VideoWriter(self.video_filename, fourcc, 30.0, (640, 480))
@@ -280,8 +284,8 @@ class Camera(object):
                     if len(self.detected_objects) > 0:
                         person_in_image = True
 
-                if os.path.exists('photo/screenshot_temp.png'):
-                    file_create_time = os.path.getmtime('photo/screenshot_temp.png')
+                if os.path.exists(self.photo_dir + 'screenshot_temp.png'):
+                    file_create_time = os.path.getmtime(self.photo_dir + 'screenshot_temp.png')
                 else:
                     file_create_time = 0
 

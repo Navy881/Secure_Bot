@@ -10,9 +10,9 @@
 		"blur_power": "1"
 	},
 	"BotParameters": {
-		"token": "",
+		"token": "615540033:AAGgor7xFa5wrZSyfHNFce4xnprvnAesdjk",
 		"chat_id": [
-			""
+			"82454947"
 		],
 		"proxy_url": "",
 		"username": "",
@@ -53,6 +53,6 @@
 		"password": ""
 	},
 	"ServicesAPITokens": {
-    	"open_exchange_rates_token": ""
+    	"open_exchange_rates_token": "f4d27b996be440219fe0f7c0df6a6b21"
   }
 }

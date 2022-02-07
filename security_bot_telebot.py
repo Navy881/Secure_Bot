@@ -201,6 +201,11 @@ def send_last_video(chat_type, chat_id):
                                         video=open(last_file, 'rb'),
                                         reply_markup=delete_message_markup())
                 print("{} - bot sent video into {} chat: {}".format(now, chat_type, chat_id))
+            else:
+                message_text = "Video not found"
+                now = datetime.strftime(datetime.now(), "%Y.%m.%d %H:%M:%S")
+                telegram_bot.send_message(chat_id=chat_id, text=message_text)
+                print("{} - bot answered into {} chat: {}".format(now, chat_type, chat_id))
 
 
 def switch_notifications(chat_type, chat_id):

@@ -10,9 +10,9 @@
 		"blur_power": "1"
 	},
 	"BotParameters": {
-		"token": "615540033:AAGgor7xFa5wrZSyfHNFce4xnprvnAesdjk",
+		"token": "",
 		"chat_id": [
-			"82454947"
+			""
 		],
 		"proxy_url": "",
 		"username": "",
